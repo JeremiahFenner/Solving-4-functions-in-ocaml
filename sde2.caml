@@ -1,0 +1,51 @@
+(*First duplicate in a list*)
+
+let rec first_duplicate = function list1 ->
+if List.mem (List.hd list1) (List.tl list1) == true then List.hd list1
+  else
+    if List.tl list1 == [] then -10000
+    else
+      first_duplicate (List.tl list1);;
+
+
+(*First non-repeating element in a list*)
+
+let rec split = function
+    ([], head, list1) -> if (List.mem (head) (list1)) then -10000 else head 
+  | (list2, head, list1) -> if (List.mem (head) (list2)) || (List.mem (head) (list1)) then split(List.tl list2, List.hd list2, head::list1) else head;;
+
+
+let rec first_nonrepeating = function list ->
+    if list == [] then -10000
+     else split(List.tl list, List.hd list, []);;
+
+
+(*The sum of 2*)
+
+let rec sumOfTwo = function (a,b,v) ->
+  if a == [] || b == [] then false
+    else
+      if List.hd a + List.hd b == v then true
+        else sumOfTwo((List.tl a), (b), (v)) || sumOfTwo((a), (List.tl b), (v));;
+
+
+(*CYK parsing algorithm*)
+
+
+let rec make_pair list1 list2 =
+  match list1, list2 with
+      | [], _ -> []
+      | _, [] -> []
+      | hd1 :: tl1, hd2 :: tl2 -> (hd1, hd2) :: (make_pair tl1 tl2)
+
+let rec decreasing = function int ->
+  if int > 1 then (int-1)::decreasing(int-1) 
+  else [];;
+
+
+let rec increasing = function (i,int) ->
+  if int > 1 then i::increasing(i+1,int-1) 
+  else [];;
+
+let rec cyk_sublists = function int ->
+  (make_pair (increasing(1,int)) (decreasing(int)));;
